@@ -22,7 +22,7 @@ const Landing = () => {
       </h1>
       <div className="position-relative w-[100%] ">
         <CircularGallery
-          bend={40}
+          bend={50}
           textColor="#ffffff"
           borderRadius={0.25}
           scrollEase={0.02}
