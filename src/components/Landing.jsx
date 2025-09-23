@@ -1,26 +1,22 @@
-// import React, { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CircularGallery from "./CircularGallery";
 
-// gsap.registerPlugin(ScrollTrigger);
+import CardCarousel from "./CardCarousel";
 
 const Landing = () => {
-  //   const containerRef = useRef(null);
-  //   useEffect(() => {
-  //     const container = containerRef.current;
-
-  //     gsap.to(container, {
-
-  //     });
-  //   }, []);
-
   return (
-    <div className="flex flex-col items-center justify-center h-[100vh] ">
-      <h1 className="font-inter  text-[370px] font-semibold text-[#191919]">
+    <div className="relative flex flex-col items-center justify-center h-[100vh] bg-white">
+      {/* Card Carousel overlayed on text */}
+      <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[600px] h-[400px]">
+        <CardCarousel />
+      </div>
+
+      {/* Main Text */}
+      <h1 className="font-inter text-[420px] font-semibold text-[#191919] z-10">
         Styler
       </h1>
-      <div className="position-relative w-[100%] ">
+
+      {/* Circular Gallery */}
+      <div className="relative w-full z-0">
         <CircularGallery
           bend={50}
           textColor="#ffffff"
