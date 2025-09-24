@@ -11,7 +11,7 @@ const Landing = () => {
       </div>
 
       {/* Main Text */}
-      <h1 className="font-inter text-[420px] font-semibold text-[#191919] z-10">
+      <h1 className="font-inter text-[380px] font-semibold text-[#191919] z-10">
         Styler
       </h1>
 

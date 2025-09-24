@@ -14,7 +14,7 @@ export default function CardCarousel() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 1500);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -23,8 +23,10 @@ export default function CardCarousel() {
       {images.map((img, index) => {
         let position = "card";
         if (index === current) position = "card center";
-        else if (index === (current + 1) % images.length) position = "card right";
-        else if (index === (current + 2) % images.length) position = "card left";
+        else if (index === (current + 1) % images.length)
+          position = "card right";
+        else if (index === (current + 2) % images.length)
+          position = "card left";
 
         return (
           <div key={index} className={position}>

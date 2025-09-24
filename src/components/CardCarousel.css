@@ -1,46 +1,45 @@
 .carousel-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 1000px; /* for 3D depth */
-  }
-  
-  .card {
-    position: absolute;
-    transition: all 0.8s ease;
-    transform-style: preserve-3d;
-    opacity: 0;
-  }
-  
-  .card img {
-    width: 200px;
-    height: 200px;
-    border-radius: 16px;
-    object-fit: cover;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  }
-  
-  /* Middle card */
-  .card.center {
-    transform: translateX(0) scale(1) translateZ(100px);
-    opacity: 1;
-    z-index: 3;
-  }
-  
-  /* Right card (partially behind) */
-  .card.right {
-    transform: translateX(200px) scale(0.85) translateZ(-100px);
-    opacity: 1;
-    z-index: 2;
-  }
-  
-  /* Left card (partially behind) */
-  .card.left {
-    transform: translateX(-200px) scale(0.85) translateZ(-100px);
-    opacity: 1;
-    z-index: 2;
-  }
-  
+  position: relative;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px; /* for 3D depth */
+}
+
+.card {
+  position: absolute;
+  transition: all 0.4s ease;
+  transform-style: preserve-3d;
+  opacity: 0;
+}
+
+.card img {
+  width: 190px;
+  height: 190px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Middle card */
+.card.center {
+  transform: translateX(0) scale(1) translateZ(100px);
+  opacity: 1;
+  z-index: 3;
+}
+
+/* Right card (partially behind) */
+.card.right {
+  transform: translateX(150px) scale(0.85) translateZ(-100px);
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Left card (partially behind) */
+.card.left {
+  transform: translateX(-150px) scale(0.85) translateZ(-100px);
+  opacity: 1;
+  z-index: 2;
+}

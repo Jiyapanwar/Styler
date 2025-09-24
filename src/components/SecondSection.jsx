@@ -4,22 +4,31 @@ import "./SecondSection.css";
 
 const lines = [
   [
-    { word: "we", img: false },
+    { word: "We", img: false },
     { word: "blend", img: false },
-    { word: "", img: "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bbac017f6a400b614_Stylized%20Graffiti-Inspired%20Robot.webp" },
+    {
+      word: "",
+      img: "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bbac017f6a400b614_Stylized%20Graffiti-Inspired%20Robot.webp",
+    },
     { word: "creativity", img: false },
     { word: "with", img: false },
   ],
   [
     { word: "technology", img: false },
     { word: "to", img: false },
-    { word: "", img: "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bdd829a2fb5a6dc35_Fashion%20Portrait%20with%20Vibrant%20Hat.webp" },
+    {
+      word: "",
+      img: "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bdd829a2fb5a6dc35_Fashion%20Portrait%20with%20Vibrant%20Hat.webp",
+    },
   ],
   [
     { word: "revolutionize", img: false },
     { word: "how", img: false },
     { word: "design", img: false },
-    { word: "", img: "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66a24a7a04635323b86_Cheerful%20Young%20Woman%20with%20Colorful%20Attire.webp" },
+    {
+      word: "",
+      img: "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66a24a7a04635323b86_Cheerful%20Young%20Woman%20with%20Colorful%20Attire.webp",
+    },
   ],
   [
     { word: "meets", img: false },
@@ -55,7 +64,10 @@ const SecondSection = () => {
       className="second-section w-full min-h-[100vh] flex flex-col items-center justify-center bg-gray-100 text-center"
     >
       {lines.map((line, i) => (
-        <div key={i} className="line mb-8 flex flex-wrap justify-center items-center">
+        <div
+          key={i}
+          className="line mb-8 flex flex-wrap justify-center items-center"
+        >
           {line.map((item, idx) =>
             item.img ? (
               <img
