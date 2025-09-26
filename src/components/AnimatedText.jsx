@@ -67,7 +67,7 @@ const AnimatedText = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white text-black p-8">
+    <div className="min-h-screen flex items-center justify-center bg-white text-black p-8 ">
       <div className="text-center max-w-6xl" ref={containerRef}>
         <div className="text-5xl md:text-6xl lg:text-7xl font-semibold space-y-4 leading-tight">
           {textLines.map((line, lineIndex) => (
