@@ -19,7 +19,7 @@ const ExpandingImageSection = () => {
         style={{
           height: "90vh",
           backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('src/assets/background.webp')",
+            "linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('src/assets/background.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
