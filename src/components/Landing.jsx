@@ -1,13 +1,49 @@
-import CircularGallery from "./CircularGallery";
+// src/Landing.js
 
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import CircularGallery from "./CircularGallery";
 import CardCarousel from "./CardCarousel";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Landing = () => {
+  const containerRef = useRef(null);
+  // Create a ref for the timeline so it can be passed to children
+  const tl = useRef();
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Create the master timeline
+      tl.current = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          // Pin the entire container
+          pin: true,
+          // Start the animation when the top of the container hits the top of the viewport
+          start: "top top",
+          // End the animation after scrolling 2000px
+          end: "+=1500",
+          // Link the animation progress to the scrollbar
+          scrub: 1,
+        },
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="relative flex flex-col items-center justify-center h-[100vh] bg-white">
+    // Add a ref to the main container
+    <div
+      ref={containerRef}
+      className="relative flex flex-col items-center justify-center h-[100vh] bg-white overflow-hidden"
+    >
       {/* Card Carousel overlayed on text */}
       <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[600px] h-[400px]">
-        <CardCarousel />
+        {/* Pass the timeline down as a prop */}
+        <CardCarousel timeline={tl} />
       </div>
 
       {/* Main Text */}
@@ -16,13 +52,9 @@ const Landing = () => {
       </h1>
 
       {/* Circular Gallery */}
-      <div className="relative w-full z-0">
-        <CircularGallery
-          bend={50}
-          textColor="#ffffff"
-          borderRadius={0.25}
-          scrollEase={0.02}
-        />
+      <div>
+        {/* Pass the timeline down as a prop */}
+        <CircularGallery timeline={tl} />
       </div>
     </div>
   );

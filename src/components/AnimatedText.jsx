@@ -1,10 +1,16 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+// 1. Import ScrollTrigger
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// 2. Register the plugin with GSAP
+gsap.registerPlugin(ScrollTrigger);
 
 const AnimatedText = () => {
   const containerRef = useRef(null);
 
   const textLines = [
+    // ... your textLines array remains the same
     [
       { type: "word", content: "We" },
       { type: "word", content: "blend" },
@@ -45,25 +51,36 @@ const AnimatedText = () => {
   ];
 
   useEffect(() => {
-    const elements = containerRef.current.querySelectorAll(".anim-item");
+    // Using gsap.context() for safe cleanup in React
+    const ctx = gsap.context(() => {
+      const elements = containerRef.current.querySelectorAll(".anim-item");
 
-    // Animate words: slide up + fade
-    gsap.fromTo(
-      elements,
-      {
-        y: 40,
-        opacity: 0,
-        scale: (i, el) => (el.querySelector("img") ? 0 : 1), // images start small
-      },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        ease: "power3.out",
-        stagger: 0.12, // each word/image 120ms after the previous
-      }
-    );
+      gsap.fromTo(
+        elements,
+        {
+          y: 40,
+          opacity: 0,
+          scale: (i, el) => (el.querySelector("img") ? 0 : 1),
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.3,
+          ease: "power3.out",
+          stagger: 0.12,
+          // 3. Add the scrollTrigger object
+          scrollTrigger: {
+            trigger: containerRef.current, // The element that triggers the animation
+            start: "top 80%", // Start when the top of the trigger is 80% down from the top of the viewport
+            once: true, // Only play this animation once
+          },
+        }
+      );
+    }, containerRef); // Scope the context to the container
+
+    // Cleanup function to revert all animations
+    return () => ctx.revert();
   }, []);
 
   return (
