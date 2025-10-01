@@ -44,7 +44,7 @@ const ExpandingImageSection = () => {
       </motion.div>
 
       {/* Next Section */}
-      <section className="relative z-20  font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24">
+      <section className="relative z-20  font-inter bg-white px-6 py-30 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row">
           <div className="space-y-6 md:w-[60%]">
             <h1 className="text-2xl leading-tight tracking-tight md:text-3xl lg:text-4xl">
