@@ -48,8 +48,8 @@ const ExpandingImageSection = () => {
 
     // Set the initial state for the MASK
     gsap.set(zoomTarget, {
-      scaleX: 0.8,
-      scaleY: 0.95,
+      scaleX: 0.9,
+      scaleY: 1,
     });
 
     // Set the initial state for the CONTENT, including the border radius
