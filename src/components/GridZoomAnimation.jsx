@@ -74,6 +74,7 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
   return (
     // Outer section is tall so there's room to scroll while the inner sticky area stays pinned.
     // Adjust h-[200vh] to control how long (in total page scroll) the animation area is.
+    
     <section ref={sectionRef} className="relative h-[200vh] w-full">
       {/* Sticky container stays pinned while you scroll through the outer section */}
       <div

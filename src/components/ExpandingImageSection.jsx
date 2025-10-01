@@ -1,19 +1,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import GridZoomAnimation from "./GridZoomAnimation";
 const ExpandingImageSection = () => {
-  const imageUrls = [
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bbac017f6a400b614_Stylized%20Graffiti-Inspired%20Robot.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bdd829a2fb5a6dc35_Fashion%20Portrait%20with%20Vibrant%20Hat.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66a24a7a04635323b86_Cheerful%20Young%20Woman%20with%20Colorful%20Attire.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bbac017f6a400b614_Stylized%20Graffiti-Inspired%20Robot.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bdd829a2fb5a6dc35_Fashion%20Portrait%20with%20Vibrant%20Hat.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66a24a7a04635323b86_Cheerful%20Young%20Woman%20with%20Colorful%20Attire.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bbac017f6a400b614_Stylized%20Graffiti-Inspired%20Robot.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bdd829a2fb5a6dc35_Fashion%20Portrait%20with%20Vibrant%20Hat.webp",
-    "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66a24a7a04635323b86_Cheerful%20Young%20Woman%20with%20Colorful%20Attire.webp",
-  ];
   const containerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -21,39 +9,42 @@ const ExpandingImageSection = () => {
     offset: ["start start", "end end"],
   });
 
-  const contentY = useTransform(scrollYProgress, [0.3, 1], ["0%", "-100%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0.3, 0.7], [1, 0]);
+  // Parallax effect
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]); // slower
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]); // faster
+  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[200vh] bg-white">
+    <div ref={containerRef} className="relative w-full h-[150vh] bg-white">
+      {/* Background Image with Parallax */}
       <motion.div
-        className="sticky top-0 mx-30 my-12 rounded-4xl h-[90vh] flex items-center justify-start px-15 bg-cover bg-no-repeat"
+        className="absolute top-0 left-0 w-full h-[120vh] bg-cover bg-no-repeat"
         style={{
-          height: "90vh",
+          y: imageY,
           backgroundImage:
             "linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('https://cdn.prod.website-files.com/689989c2270f878736e77521/68a05f24dfe3241d0a83bab0_Cheerful%20Young%20Woman%20with%20Colorful%20Attire.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
+      />
+
+      {/* Foreground Text */}
+      <motion.div
+        style={{ y: textY, opacity: textOpacity }}
+        className="relative z-10 h-[100vh] flex flex-col justify-center px-10 text-white max-w-lg"
       >
-        <motion.div
-          style={{ y: contentY, opacity: contentOpacity }}
-          className="text-white font-inter max-w-sm"
-        >
-          <h1 className="text-6xl mb-6">
-            We're focused on launching your brand.
-          </h1>
-          <p className="mb-6 text-lg">
-            Let's create something extraordinary together. Your vision, our
-            commitment to excellence.
-          </p>
-          <button className="px-6 py-3 bg-black text-white rounded-full">
-            LEARN MORE
-          </button>
-        </motion.div>
+        <h1 className="text-6xl mb-6">We're focused on launching your brand.</h1>
+        <p className="mb-6 text-lg">
+          Let's create something extraordinary together. Your vision, our
+          commitment to excellence.
+        </p>
+        <button className="px-6 py-3 bg-black text-white rounded-full">
+          LEARN MORE
+        </button>
       </motion.div>
 
-      <section className="relative z-10 min-h-screen font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24">
+      {/* Next Section */}
+      <section className="relative z-20  font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row">
           <div className="space-y-6 md:w-[60%]">
             <h1 className="text-2xl leading-tight tracking-tight md:text-3xl lg:text-4xl">
@@ -73,9 +64,6 @@ const ExpandingImageSection = () => {
               create meaningful connections that drive engagement.
             </p>
           </div>
-          {/* <div>
-            <GridZoomAnimation imageUrls={imageUrls} />
-          </div> */}
         </div>
       </section>
     </div>
