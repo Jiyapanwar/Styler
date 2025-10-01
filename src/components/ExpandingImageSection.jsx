@@ -1,7 +1,14 @@
-import React, { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  easeInOut,
+} from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import LearnMoreButton from "./LearnMoreButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,10 +25,21 @@ const ExpandingImageSection = () => {
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]); // faster
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  // text animation
+  // text animation (wave-in words for the next section)
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const paraRef = useRef(null);
+
+  // 👇 Added state for rotating words
+  const words = ["boosting", "powering", "launching"];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % words.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const headingEl = headingRef.current;
@@ -29,7 +47,6 @@ const ExpandingImageSection = () => {
 
     if (!headingEl || !paraEl) return;
 
-    // Split heading into words
     if (!headingEl.dataset.split) {
       headingEl.dataset.split = "true";
       const text = headingEl.textContent || "";
@@ -52,7 +69,6 @@ const ExpandingImageSection = () => {
       },
     });
 
-    // Animate heading words in a wave (from below)
     tl.fromTo(
       words,
       { y: 40, opacity: 0 },
@@ -60,13 +76,12 @@ const ExpandingImageSection = () => {
         y: 0,
         opacity: 1,
         duration: 0.6,
-        stagger: 0.09, // wave effect
+        stagger: 0.09,
         ease: "power3.out",
       },
       0
     );
 
-    // Animate paragraph (from below at same time)
     tl.fromTo(
       paraEl,
       { y: 100, opacity: 0 },
@@ -86,7 +101,10 @@ const ExpandingImageSection = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[150vh] bg-white">
+    <div
+      ref={containerRef}
+      className="relative w-full h-[150vh] bg-white font-inter"
+    >
       {/* Background Image with Parallax */}
       <motion.div
         className="absolute top-0 left-0 w-full h-[120vh] bg-cover bg-no-repeat"
@@ -102,18 +120,41 @@ const ExpandingImageSection = () => {
       {/* Foreground Text */}
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
-        className="relative z-10 h-[100vh] flex flex-col justify-center px-10 text-white max-w-lg"
+        className="relative z-10 h-[100vh] flex flex-col justify-center px-15 text-white max-w-lg"
       >
         <h1 className="text-6xl mb-6">
-          We're focused on launching your brand.
+          We're focused on{" "}
+          <span
+            className="inline-flex relative overflow-hidden align-topline"
+            style={{ width: "9ch", height: "1.05em" }} // fixed width + height for alignment
+          >
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={words[index]}
+                initial={{ y: "100%", opacity: 0 }}
+                animate={{ y: "0%", opacity: 1 }}
+                exit={{ y: "-100%", opacity: 0 }}
+                transition={{
+                  duration: 0.5,
+                  ease: easeInOut, // smooth, no bounce (material design ease)
+                }}
+                className="absolute left-0 top-0 "
+              >
+                {words[index]}
+              </motion.span>
+            </AnimatePresence>
+          </span>{" "}
+          your brand.
         </h1>
+
         <p className="mb-6 text-lg">
           Let's create something extraordinary together. Your vision, our
           commitment to excellence.
         </p>
-        <button className="px-6 py-3 bg-black text-white rounded-full">
+        {/* <button className="px-6 py-3 bg-black text-white rounded-full">
           LEARN MORE
-        </button>
+        </button> */}
+        <LearnMoreButton />
       </motion.div>
 
       {/* Next Section */}
