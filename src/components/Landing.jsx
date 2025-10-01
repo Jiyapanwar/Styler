@@ -3,8 +3,9 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import CircularGallery from "./CircularGallery";
+
 import CardCarousel from "./CardCarousel";
+import ResponsiveGallery from "./ResponsiveGallery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,7 +60,7 @@ const Landing = () => {
 
       {/* Circular Gallery */}
       <div className="w-full mt-6 sm:mt-10">
-        <CircularGallery timeline={tl} />
+        <ResponsiveGallery timeline={tl} />
       </div>
     </div>
   );
