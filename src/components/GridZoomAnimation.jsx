@@ -63,7 +63,8 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
     else if (isNeighbor) startProgress = 0.1;
     else startProgress = 0.2;
 
-    const itemProgress = Math.max(0, progress - startProgress) / animationDuration;
+    const itemProgress =
+      Math.max(0, progress - startProgress) / animationDuration;
     return Math.min(itemProgress, 1);
   };
 
@@ -74,14 +75,12 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
   return (
     // Outer section is tall so there's room to scroll while the inner sticky area stays pinned.
     // Adjust h-[200vh] to control how long (in total page scroll) the animation area is.
-    
+
     <section ref={sectionRef} className="relative h-[200vh] w-full">
       {/* Sticky container stays pinned while you scroll through the outer section */}
-      <div
-        className="h-screen w-full sticky top-0 flex items-center justify-center overflow-hidden p-8"
-      >
+      <div className="h-screen w-full sticky top-0 flex items-center justify-center overflow-hidden p-4">
         <div
-          className="grid grid-cols-3 gap-12 w-full h-full"
+          className="grid grid-cols-3 gap-4 w-full h-full"
           style={{
             transform: `scale(${scale}) translateZ(0)`,
             willChange: "transform, opacity",
@@ -116,10 +115,6 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
 };
 
 export default GridZoomAnimation;
-
-
-
-
 
 // import React from "react";
 

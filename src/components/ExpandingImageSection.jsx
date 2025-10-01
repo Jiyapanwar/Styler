@@ -1,5 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const ExpandingImageSection = () => {
   const containerRef = useRef(null);
@@ -13,6 +17,73 @@ const ExpandingImageSection = () => {
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]); // slower
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]); // faster
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // text animation
+  const sectionRef = useRef(null);
+  const headingRef = useRef(null);
+  const paraRef = useRef(null);
+
+  useEffect(() => {
+    const headingEl = headingRef.current;
+    const paraEl = paraRef.current;
+
+    if (!headingEl || !paraEl) return;
+
+    // Split heading into words
+    if (!headingEl.dataset.split) {
+      headingEl.dataset.split = "true";
+      const text = headingEl.textContent || "";
+      headingEl.innerHTML = "";
+      text.split(" ").forEach((word, i) => {
+        const span = document.createElement("span");
+        span.className = "inline-block opacity-0 mr-2";
+        span.textContent = word;
+        headingEl.appendChild(span);
+      });
+    }
+
+    const words = headingEl.querySelectorAll("span");
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 30%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    // Animate heading words in a wave (from below)
+    tl.fromTo(
+      words,
+      { y: 40, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.09, // wave effect
+        ease: "power3.out",
+      },
+      0
+    );
+
+    // Animate paragraph (from below at same time)
+    tl.fromTo(
+      paraEl,
+      { y: 100, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+      },
+      0
+    );
+
+    return () => {
+      if (tl.scrollTrigger) tl.scrollTrigger.kill();
+      tl.kill();
+    };
+  }, []);
 
   return (
     <div ref={containerRef} className="relative w-full h-[150vh] bg-white">
@@ -46,19 +117,24 @@ const ExpandingImageSection = () => {
       </motion.div>
 
       {/* Next Section */}
-      <section className="relative z-10 min-h-screen font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24">
+      <section
+        ref={sectionRef}
+        className="relative z-10 min-h-screen font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24"
+      >
         <div className="flex flex-col md:flex-row">
           <div className="space-y-6 md:w-[60%]">
             <h1 className="text-2xl leading-tight tracking-tight md:text-3xl lg:text-4xl">
               <span className="text-[15px] pr-10 leading-relaxed">
                 • Next Level
               </span>
-              Transform Your Brand With Our Innovative Strategies & Discover New
-              Opportunities.
+              <span ref={headingRef}>
+                Transform Your Brand With Our Innovative Strategies & Discover
+                New Opportunities.
+              </span>
             </h1>
           </div>
 
-          <div className="pt-30 md:w-[40%] font-light">
+          <div ref={paraRef} className="pt-30 md:w-[40%] font-light">
             <p className="md:text-md lg:text-md">
               Our team combines strategic thinking with creative execution to
               build brands that stand out in today's competitive landscape. From
