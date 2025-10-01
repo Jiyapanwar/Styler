@@ -2,22 +2,49 @@ import React, { useState, useEffect, useRef } from "react";
 
 const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const containerRef = useRef(null);
+  const sectionRef = useRef(null);
 
-  // Scroll handler
+  // Scroll handler (uses requestAnimationFrame to avoid layout thrash)
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
+    let ticking = false;
 
-      const rect = containerRef.current.getBoundingClientRect();
-      const progress = 1 - rect.top / window.innerHeight;
-      const clampedProgress = Math.min(1, Math.max(0, progress));
-      setScrollProgress(clampedProgress);
+    const onScroll = () => {
+      if (!sectionRef.current) return;
+      if (ticking) return;
+
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const section = sectionRef.current;
+        const rect = section.getBoundingClientRect();
+
+        // sectionTop in document coords
+        const sectionTop = window.scrollY + rect.top;
+        const sectionHeight = section.offsetHeight;
+
+        // Duration that the sticky content will remain pinned = sectionHeight - viewportHeight
+        const pinDuration = Math.max(1, sectionHeight - window.innerHeight);
+
+        // Current scroll position
+        const scrollY = window.scrollY;
+
+        // progress: 0 when top of section reached, 1 when we've scrolled through the pinDuration
+        const raw = (scrollY - sectionTop) / pinDuration;
+        const clamped = Math.min(1, Math.max(0, raw));
+
+        setScrollProgress(clamped);
+        ticking = false;
+      });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // initialize on mount
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Listen to scroll + resize (resize can change viewport height & pinDuration)
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll(); // initialize
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   // Scale animation
@@ -45,42 +72,45 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="h-screen w-full sticky top-0 flex items-center justify-center overflow-hidden p-8"
-    >
+    // Outer section is tall so there's room to scroll while the inner sticky area stays pinned.
+    // Adjust h-[200vh] to control how long (in total page scroll) the animation area is.
+    <section ref={sectionRef} className="relative h-[200vh] w-full">
+      {/* Sticky container stays pinned while you scroll through the outer section */}
       <div
-        className="grid grid-cols-3 gap-12 w-full h-full"
-        style={{
-          transform: `scale(${scale})`,
-          willChange: "transform",
-          gridTemplateRows: "1.4fr 1.4fr 1.4fr", // taller rows to make images closer
-        }}
+        className="h-screen w-full sticky top-0 flex items-center justify-center overflow-hidden p-8"
       >
-        {imageUrls.map((url, index) => (
-          <div
-            key={index}
-            className="w-full h-full overflow-hidden bg-gray-800 shadow-lg"
-            style={{
-              opacity: getItemOpacity(index, scrollProgress),
-              willChange: "opacity",
-              borderRadius: borderRadius,
-            }}
-          >
-            <img
-              src={url}
-              alt={`Grid item ${index + 1}`}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src =
-                  "https://placehold.co/600x400/cccccc/FFFFFF?text=Error";
+        <div
+          className="grid grid-cols-3 gap-12 w-full h-full"
+          style={{
+            transform: `scale(${scale}) translateZ(0)`,
+            willChange: "transform, opacity",
+            gridTemplateRows: "1.4fr 1.4fr 1.4fr", // taller rows so images are closer vertically
+          }}
+        >
+          {imageUrls.map((url, index) => (
+            <div
+              key={index}
+              className="w-full h-full overflow-hidden bg-gray-800 shadow-lg"
+              style={{
+                opacity: getItemOpacity(index, scrollProgress),
+                borderRadius: borderRadius,
               }}
-            />
-          </div>
-        ))}
+            >
+              <img
+                src={url}
+                alt={`Grid item ${index + 1}`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src =
+                    "https://placehold.co/600x400/cccccc/FFFFFF?text=Error";
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
