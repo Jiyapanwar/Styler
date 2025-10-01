@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-// Import all lifestyle images
+// Import lifestyle images
 import lifestyle1 from "../assets/6899f66a0d1bd4d5f7d23f0f_Dynamic_20Basketball_20Action.jpg";
 import lifestyle2 from "../assets/6899f66a24a7a04635323b86_Cheerful_20Young_20Woman_20with_20Colorful_20Attire.jpg";
 import lifestyle3 from "../assets/6899f66a70c7da6d8e84b00d_Modern_20Pastel_20Chair.jpg";
@@ -17,7 +17,6 @@ const InfiniteImageGrid = () => {
   const row1Ref = useRef(null);
   const row2Ref = useRef(null);
 
-  // Split images into two rows
   const row1Images = [
     lifestyle1,
     lifestyle2,
@@ -36,7 +35,6 @@ const InfiniteImageGrid = () => {
   useEffect(() => {
     if (!row1Ref.current || !row2Ref.current) return;
 
-    // Set up infinite horizontal scrolling for row 1 (left direction)
     const row1Timeline = gsap.timeline({ repeat: -1 });
     row1Timeline.to(row1Ref.current, {
       x: "-50%",
@@ -44,7 +42,6 @@ const InfiniteImageGrid = () => {
       ease: "none",
     });
 
-    // Set up infinite horizontal scrolling for row 2 (right direction)
     const row2Timeline = gsap.timeline({ repeat: -1 });
     row2Timeline.fromTo(
       row2Ref.current,
@@ -63,16 +60,20 @@ const InfiniteImageGrid = () => {
   }, []);
 
   const renderImageRow = (images, direction) => {
-    // Duplicate images for seamless loop
     const duplicatedImages = [...images, ...images];
 
     return (
-      <div className="flex gap-4 w-fit">
+      <div className="flex gap-3 sm:gap-4 md:gap-6 w-fit">
         {duplicatedImages.map((img, index) => (
           <div
             key={`${direction}-${index}`}
-            className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex-shrink-0"
-            style={{ width: "280px", height: "280px" }}
+            className="
+              relative overflow-hidden 
+              rounded-lg sm:rounded-xl md:rounded-2xl 
+              shadow-md md:shadow-lg hover:shadow-xl 
+              transition-shadow duration-300 flex-shrink-0
+              w-32 h-32 sm:w-40 sm:h-40 md:w-56 md:h-56 lg:w-72 lg:h-72
+            "
           >
             <img
               src={img}
@@ -87,18 +88,18 @@ const InfiniteImageGrid = () => {
   };
 
   return (
-    <div className="pb-10 bg-background overflow-hidden flex flex-col justify-center">
-      <div className="space-y-4">
+    <div className="pb-6 sm:pb-8 md:pb-10 bg-background overflow-hidden flex flex-col justify-center">
+      <div className="space-y-4 sm:space-y-6 md:space-y-8">
         {/* Row 1 - Scrolls Left */}
         <div className="overflow-hidden">
-          <div ref={row1Ref} className="flex gap-6 w-fit">
+          <div ref={row1Ref} className="flex gap-4 sm:gap-6 w-fit">
             {renderImageRow(row1Images, "left")}
           </div>
         </div>
 
         {/* Row 2 - Scrolls Right */}
         <div className="overflow-hidden">
-          <div ref={row2Ref} className="flex gap-6 w-fit">
+          <div ref={row2Ref} className="flex gap-4 sm:gap-6 w-fit">
             {renderImageRow(row2Images, "right")}
           </div>
         </div>

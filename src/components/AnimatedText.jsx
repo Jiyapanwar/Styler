@@ -1,16 +1,13 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-// 1. Import ScrollTrigger
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// 2. Register the plugin with GSAP
 gsap.registerPlugin(ScrollTrigger);
 
 const AnimatedText = () => {
   const containerRef = useRef(null);
 
   const textLines = [
-    // ... your textLines array remains the same
     [
       { type: "word", content: "We" },
       { type: "word", content: "blend" },
@@ -51,7 +48,6 @@ const AnimatedText = () => {
   ];
 
   useEffect(() => {
-    // Using gsap.context() for safe cleanup in React
     const ctx = gsap.context(() => {
       const elements = containerRef.current.querySelectorAll(".anim-item");
 
@@ -69,28 +65,27 @@ const AnimatedText = () => {
           duration: 0.3,
           ease: "power3.out",
           stagger: 0.12,
-          // 3. Add the scrollTrigger object
           scrollTrigger: {
-            trigger: containerRef.current, // The element that triggers the animation
-            start: "top 80%", // Start when the top of the trigger is 80% down from the top of the viewport
-            once: true, // Only play this animation once
+            trigger: containerRef.current,
+            start: "top 80%",
+            once: true,
           },
         }
       );
-    }, containerRef); // Scope the context to the container
+    }, containerRef);
 
-    // Cleanup function to revert all animations
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white text-black p-8 ">
+    <div className="min-h-screen flex items-center justify-center bg-white text-black px-4 sm:px-6 lg:px-8">
       <div className="text-center max-w-6xl" ref={containerRef}>
+        {/* Keep original text sizes */}
         <div className="text-5xl md:text-6xl lg:text-7xl font-semibold space-y-4 leading-tight">
           {textLines.map((line, lineIndex) => (
             <div
               key={lineIndex}
-              className="flex items-center justify-center gap-4 flex-wrap"
+              className="flex items-center justify-center gap-3 sm:gap-4 md:gap-6 flex-wrap"
             >
               {line.map((element, idx) => (
                 <span key={idx} className="inline-flex items-center anim-item">
@@ -100,7 +95,7 @@ const AnimatedText = () => {
                     <img
                       src={element.content}
                       alt={element.alt}
-                      className="inline-block w-24 h-12 md:h-14 lg:h-16 object-cover rounded-3xl"
+                      className="inline-block w-16 h-10 sm:w-20 sm:h-12 md:w-24 md:h-14 lg:w-28 lg:h-16 object-cover rounded-2xl md:rounded-3xl"
                     />
                   )}
                 </span>

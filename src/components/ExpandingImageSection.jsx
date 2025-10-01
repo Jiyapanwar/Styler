@@ -33,7 +33,9 @@ const ExpandingImageSection = () => {
         style={{ y: textY, opacity: textOpacity }}
         className="relative z-10 h-[100vh] flex flex-col justify-center px-10 text-white max-w-lg"
       >
-        <h1 className="text-6xl mb-6">We're focused on launching your brand.</h1>
+        <h1 className="text-6xl mb-6">
+          We're focused on launching your brand.
+        </h1>
         <p className="mb-6 text-lg">
           Let's create something extraordinary together. Your vision, our
           commitment to excellence.
@@ -44,7 +46,7 @@ const ExpandingImageSection = () => {
       </motion.div>
 
       {/* Next Section */}
-      <section className="relative z-20  font-inter bg-white px-6 py-30 md:px-12 lg:px-24">
+      <section className="relative z-10 min-h-screen font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row">
           <div className="space-y-6 md:w-[60%]">
             <h1 className="text-2xl leading-tight tracking-tight md:text-3xl lg:text-4xl">

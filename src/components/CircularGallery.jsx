@@ -184,12 +184,12 @@
 //         uniform sampler2D tMap;
 //         uniform float uBorderRadius;
 //         varying vec2 vUv;
-        
+
 //         float roundedBoxSDF(vec2 p, vec2 b, float r) {
 //           vec2 d = abs(p) - b;
 //           return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
 //         }
-        
+
 //         void main() {
 //           vec2 ratio = vec2(
 //             min((uPlaneSizes.x / uPlaneSizes.y) / (uImageSizes.x / uImageSizes.y), 1.0),
@@ -200,13 +200,13 @@
 //             vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
 //           );
 //           vec4 color = texture2D(tMap, uv);
-          
+
 //           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
-          
+
 //           // Smooth antialiasing for edges
 //           float edgeSmooth = 0.002;
 //           float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
-          
+
 //           gl_FragColor = vec4(color.rgb, alpha);
 //         }
 //       `,
@@ -341,7 +341,7 @@
 //     this.createGeometry();
 //     this.createMedias(items, bend, textColor, borderRadius, font);
 //     // this.createFullscreenPlane();   // added fullscreen mesh
-//     // this.addMouseEvents();    
+//     // this.addMouseEvents();
 //     this.update();
 //     this.addEventListeners();
 //   }
@@ -420,8 +420,6 @@
 //         text: "Palm Trees",
 //       },
 
-
-      
 //     ];
 //     const galleryItems = items && items.length ? items : defaultItems;
 //     this.mediasImages = galleryItems.concat(galleryItems);
@@ -444,11 +442,6 @@
 //       });
 //     });
 //   }
-  
-  
-  
-
-
 
 //   onTouchDown(e) {
 //     this.isDown = true;
@@ -580,10 +573,6 @@
 //   );
 // }
 
-
-
-
-
 // // import { useEffect, useRef } from "react";
 // // import { gsap } from "gsap";
 // // import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -680,9 +669,6 @@
 // //   );
 // // }
 
-
-
-
 // import { useLayoutEffect, useRef } from "react";
 // import gsap from "gsap";
 // import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -712,8 +698,6 @@
 
 // ];
 
-
-
 // const CircularGallery = () => {
 //   const containerRef = useRef(null);
 
@@ -721,7 +705,7 @@
 //     let ctx = gsap.context(() => {
 //       const slider = containerRef.current.querySelector(".slider");
 //       const items = gsap.utils.toArray(".img");
-      
+
 //       if (!slider || items.length === 0) return;
 
 //       const total = items.length;
@@ -746,7 +730,7 @@
 //       });
 
 //       // --- NEW ANIMATION LOGIC ---
-      
+
 //       // 1. Define how much rotation each image should "cost"
 //       const rotationPerImage = totalArc / (total - 1) * (180 / Math.PI); // Convert radians to degrees
 //       const totalRotation = (total - 1) * rotationPerImage;
@@ -786,10 +770,6 @@
 // };
 
 // export default CircularGallery;
-
-
-
-
 
 import { useLayoutEffect, useRef, useState } from "react"; // 1. Import useState
 import gsap from "gsap";
@@ -851,7 +831,7 @@ const CircularGallery = () => {
         });
       });
 
-      const rotationPerImage = (totalArc / (total - 1) * 180) / Math.PI;
+      const rotationPerImage = ((totalArc / (total - 1)) * 180) / Math.PI;
       const totalRotation = (total - 1) * rotationPerImage;
       const scrollDistance = total * 150;
 

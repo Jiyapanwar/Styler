@@ -1,11 +1,13 @@
 .carousel-container {
   position: relative;
   width: 100%;
+  max-width: 600px;
   height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1000px; /* for 3D depth */
+  perspective: 1000px;
+  margin: 0 auto;
 }
 
 .card {
@@ -30,16 +32,55 @@
   z-index: 3;
 }
 
-/* Right card (partially behind) */
+/* Right card */
 .card.right {
   transform: translateX(150px) scale(0.85) translateZ(-100px);
   opacity: 1;
   z-index: 2;
 }
 
-/* Left card (partially behind) */
+/* Left card */
 .card.left {
   transform: translateX(-150px) scale(0.85) translateZ(-100px);
   opacity: 1;
   z-index: 2;
+}
+
+/* 🔹 Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel-container {
+    height: 300px;
+  }
+
+  .card img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .card.right {
+    transform: translateX(120px) scale(0.8) translateZ(-80px);
+  }
+
+  .card.left {
+    transform: translateX(-120px) scale(0.8) translateZ(-80px);
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    height: 240px;
+  }
+
+  .card img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .card.right {
+    transform: translateX(100px) scale(0.75) translateZ(-60px);
+  }
+
+  .card.left {
+    transform: translateX(-100px) scale(0.75) translateZ(-60px);
+  }
 }
