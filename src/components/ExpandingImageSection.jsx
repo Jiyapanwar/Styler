@@ -160,7 +160,7 @@ const ExpandingImageSection = () => {
       {/* Next Section */}
       <section
         ref={sectionRef}
-        className="relative z-10 min-h-screen font-inter bg-gray-50 px-6 py-30 md:px-12 lg:px-24"
+        className="relative z-10  font-inter bg-white  px-6 py-30 md:px-12 lg:px-24"
       >
         <div className="flex flex-col md:flex-row">
           <div className="space-y-6 md:w-[60%]">

@@ -48,7 +48,7 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
   }, []);
 
   // Scale animation
-  const initialScale = 4;
+  const initialScale = 3.1;
   const finalScale = 1;
   const scale = initialScale - (initialScale - finalScale) * scrollProgress;
 
