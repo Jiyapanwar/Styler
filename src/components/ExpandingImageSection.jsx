@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import RotatingText from "./RotatingText";
 import {
   motion,
   useScroll,
@@ -14,6 +15,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ExpandingImageSection = () => {
   const containerRef = useRef(null);
+  const rotatingRef = useRef(null);
+
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -125,10 +128,10 @@ const ExpandingImageSection = () => {
         <h1 className="text-6xl mb-6">
           We're focused on{" "}
           <span
-            className="inline-flex relative overflow-hidden align-topline"
+            className="inline-flex relative overflow-hidden align-bottomline"
             style={{ width: "9ch", height: "1.05em" }} // fixed width + height for alignment
           >
-            <AnimatePresence mode="wait">
+            {/* <AnimatePresence mode="wait">
               <motion.span
                 key={words[index]}
                 initial={{ y: "100%", opacity: 0 }}
@@ -142,7 +145,20 @@ const ExpandingImageSection = () => {
               >
                 {words[index]}
               </motion.span>
-            </AnimatePresence>
+            </AnimatePresence> */}
+            <RotatingText
+        ref={rotatingRef}
+        texts={["Developer", "Designer", "Creator", "Dreamer"]}
+        rotationInterval={2000} // changes text every 2.5s
+        splitBy="words" // can also be "words" or "lines"
+        staggerDuration={0.01} // delay between each letter
+        staggerFrom="center" // animation starts from center
+        mainClassName="text-6xl  text-white"
+        splitLevelClassName="inline-block"
+        elementLevelClassName="inline-block"
+        transition={{ type: "spring", damping: 10, stiffness: 200 }} 
+        initial={{ y: "100%", opacity: 1 }}
+      />
           </span>{" "}
           your brand.
         </h1>
