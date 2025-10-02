@@ -28,10 +28,10 @@ const ImagesSection = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top top",     // start when section hits top
-            end: "+=100%",        // lock scroll until animation ends
-            scrub: true,          // smooth scroll link
-            pin: true,            // pin section while animating
+            start: "top top",
+            end: "+=100%",
+            scrub: true,
+            pin: true,
           },
         }
       );
@@ -43,9 +43,10 @@ const ImagesSection = () => {
   return (
     <div
       ref={containerRef}
-      className="flex items-center justify-center w-full overflow-hidden min-h-screen px-4"
+      className="h-screen w-full relative overflow-hidden"
     >
-      <div className="flex gap-4 items-center w-full justify-center">
+      {/* Center the entire row */}
+      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 flex items-center gap-4">
         {/* Left wide */}
         <img
           src={images[0]}
@@ -73,7 +74,7 @@ const ImagesSection = () => {
         {/* Big center card with reveal effect */}
         <div
           ref={centerRef}
-          className="relative h-[22rem] sm:h-[28rem] md:h-[36rem] lg:h-[40rem] flex-shrink-0 overflow-hidden rounded-3xl"
+          className="relative h-[18rem] sm:h-[24rem] md:h-[32rem] lg:h-[36rem] flex-shrink-0 overflow-hidden rounded-3xl"
         >
           <img
             src={images[3]}
