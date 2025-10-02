@@ -7,6 +7,7 @@ import AnimatedText from "./components/AnimatedText";
 import InfiniteImageGrid from "./components/InfiniteImageGrid";
 import Footer from "./components/Footer";
 import About from "./components/About";
+import ImagesSection from "./components/ImagesSection";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
               <Landing />
               <AnimatedText />
               <InfiniteImageGrid />
+              <ImagesSection />
               <Footer />
             </>
           }

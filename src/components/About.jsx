@@ -2,7 +2,7 @@ import React from "react";
 import ExpandingImageSection from "./ExpandingImageSection";
 import GridZoomAnimation from "./GridZoomAnimation";
 import ImagesSection from "./ImagesSection";
-
+import Footer from "./Footer";
 const About = () => {
   const imageUrls = [
     "https://cdn.prod.website-files.com/689989c2270f878736e77521/6899f66bbac017f6a400b614_Stylized%20Graffiti-Inspired%20Robot.webp",
@@ -20,6 +20,7 @@ const About = () => {
       <ExpandingImageSection />
       <GridZoomAnimation imageUrls={imageUrls} />
       <ImagesSection />
+      <Footer />
     </div>
   );
 };
