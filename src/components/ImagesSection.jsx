@@ -1,19 +1,51 @@
 // src/MobileGallery.js
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const images = [
   "src/assets/6899f66baf162b757a39b091_Tennis_20Net_20Close-Up.jpg", // left wide
   "src/assets/6899f66b1594a697a2ef4c3e_Modern_20Digital_20Alarm_20Clock.jpg", // small top
   "src/assets/6899f66bd60d48c5c5315745_Matte_20Black_20Circular_20Object_20on_20Red.jpg", // small bottom
-  "src/assets/6899f66a70c7da6d8e84b00d_Modern_20Pastel_20Chair.jpg", // big center
+  "https://cdn.prod.website-files.com/689989c2270f878736e77521/68a061f4c6476b52f101c546_Tennis%20Court%20Smiley-p-800.webp", // big center
   "src/assets/6899f66d6417165e842c0883_Portrait_20of_20a_20Young_20Woman.jpg", // right big
   "src/assets/6899f66ced2610f6911fafcf_Glossy_20Tote_20Bags_20on_20Vibrant_20Background.jpg", // right small
 ];
 
 const ImagesSection = () => {
+  const containerRef = useRef(null);
+  const centerRef = useRef(null);
+
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        centerRef.current,
+        { width: "40%" },
+        {
+          width: "100%",
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",     // start when section hits top
+            end: "+=100%",        // lock scroll until animation ends
+            scrub: true,          // smooth scroll link
+            pin: true,            // pin section while animating
+          },
+        }
+      );
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className="flex items-center justify-center w-full overflow-hidden min-h-screen px-4">
-      <div className="flex gap-4 items-center">
+    <div
+      ref={containerRef}
+      className="flex items-center justify-center w-full overflow-hidden min-h-screen px-4"
+    >
+      <div className="flex gap-4 items-center w-full justify-center">
         {/* Left wide */}
         <img
           src={images[0]}
@@ -22,7 +54,7 @@ const ImagesSection = () => {
             w-32 h-40 sm:w-40 sm:h-48 md:w-52 md:h-64 lg:w-60 lg:h-68"
         />
 
-        {/* Two stacked small cards (slightly up) */}
+        {/* Two stacked small cards */}
         <div className="flex flex-col gap-4 flex-shrink-0 relative -top-4 sm:-top-6">
           <img
             src={images[1]}
@@ -38,15 +70,19 @@ const ImagesSection = () => {
           />
         </div>
 
-        {/* Big center card */}
-        <img
-          src={images[3]}
-          alt="Big center"
-          className="object-cover rounded-3xl flex-shrink-0
-            w-40 h-56 sm:w-56 sm:h-72 md:w-72 md:h-96 lg:w-94 lg:h-124"
-        />
+        {/* Big center card with reveal effect */}
+        <div
+          ref={centerRef}
+          className="relative h-[22rem] sm:h-[28rem] md:h-[36rem] lg:h-[40rem] flex-shrink-0 overflow-hidden rounded-3xl"
+        >
+          <img
+            src={images[3]}
+            alt="Big center"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
 
-        {/* Right tall card (slightly down) */}
+        {/* Right tall card */}
         <img
           src={images[4]}
           alt="Right tall"
@@ -54,7 +90,7 @@ const ImagesSection = () => {
             w-32 h-44 sm:w-44 sm:h-64 md:w-52 md:h-80 lg:w-64 lg:h-118"
         />
 
-        {/* Right small card (slightly up) */}
+        {/* Right small card */}
         <img
           src={images[5]}
           alt="Right small"
