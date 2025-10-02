@@ -1,6 +1,7 @@
 import React from "react";
 import ExpandingImageSection from "./ExpandingImageSection";
 import GridZoomAnimation from "./GridZoomAnimation";
+import ImagesSection from "./ImagesSection";
 
 const About = () => {
   const imageUrls = [
@@ -18,6 +19,7 @@ const About = () => {
     <div>
       <ExpandingImageSection />
       <GridZoomAnimation imageUrls={imageUrls} />
+      <ImagesSection />
     </div>
   );
 };
