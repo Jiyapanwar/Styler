@@ -52,7 +52,7 @@ const ImagesSection = () => {
   return (
     <div
       ref={containerRef}
-      className="h-screen w-full overflow-hidden bg-gray-100 grid place-items-center"
+      className="h-screen w-full overflow-hidden bg-gray-100 grid place-items-center relative "
     >
       <div
         className="flex items-center justify-center gap-4 
