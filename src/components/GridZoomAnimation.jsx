@@ -116,36 +116,4 @@ const GridZoomAnimation = ({ imageUrls, borderRadius = "30px" }) => {
 
 export default GridZoomAnimation;
 
-// import React from "react";
 
-// const GridZoomAnimation = ({ imageUrls }) => {
-//   if (!imageUrls || imageUrls.length !== 9) {
-//     console.error("GridZoomAnimation requires exactly 9 images");
-//     return <div style={{ color: "red" }}>Error: 9 images needed</div>;
-//   }
-
-//   return (
-//     <div
-//       className="h-screen w-full flex items-center justify-center bg-black"
-//       style={{ border: "3px solid lime" }}
-//     >
-//       <div className="grid grid-cols-3 grid-rows-3 gap-4">
-//         {imageUrls.map((url, index) => (
-//           <div
-//             key={index}
-//             className="w-32 h-32 bg-gray-700"
-//             style={{ border: "2px solid red" }}
-//           >
-//             <img
-//               src={url}
-//               alt={`Grid item ${index + 1}`}
-//               className="w-full h-full object-cover"
-//             />
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default GridZoomAnimation;
