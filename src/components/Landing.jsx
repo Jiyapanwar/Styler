@@ -14,13 +14,25 @@ const Landing = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      tl.current = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          pin: true,
-          start: "top top",
-          end: "+=1500",
-          scrub: 1,
+      // Enable pin/scrub animations only on desktop, disable on small screens
+      ScrollTrigger.matchMedia({
+        "(min-width: 768px)": () => {
+          if (tl.current) tl.current.kill();
+          tl.current = gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              pin: true,
+              start: "top top",
+              end: "+=1500",
+              scrub: 1,
+            },
+          });
+        },
+        "(max-width: 767px)": () => {
+          if (tl.current) {
+            tl.current.kill();
+            tl.current = null;
+          }
         },
       });
     }, containerRef);
@@ -31,14 +43,14 @@ const Landing = () => {
   return (
     <div
       ref={containerRef}
-      className="relative flex flex-col items-center justify-center h-screen bg-white overflow-hidden"
+      className="relative flex flex-col items-center justify-center min-h-screen bg-white overflow-hidden"
     >
       {/* Main Text */}
       <h1
         className="
           font-inter font-semibold text-[#191919] z-10 text-center
           text-[48px] sm:text-[80px] md:text-[200px] lg:text-[280px] xl:text-[360px]
-          mb-4 md:mb-0
+          mb-1 sm:mb-2 md:mb-0
         "
       >
         Styler
@@ -48,17 +60,19 @@ const Landing = () => {
       <div
         className="
           relative w-full flex justify-center 
-          md:absolute md:top-[15%] md:left-1/2 md:-translate-x-1/2
           z-50 
           h-[200px] sm:h-[250px] md:h-[50vh] md:max-h-[400px]
           px-4
+          mt-1 sm:mt-2 md:mt-0
+          md:absolute md:left-1/2 md:-translate-x-1/2 md:top-[28%]
+          lg:top-[22%] xl:top-[18%]
         "
       >
         <CardCarousel timeline={tl} />
       </div>
 
       {/* Circular/Responsive Gallery */}
-      <div className="w-full mt-6 sm:mt-10">
+      <div className="w-full mt-6 sm:mt-8 md:mt-10">
         <ResponsiveGallery timeline={tl} />
       </div>
     </div>
